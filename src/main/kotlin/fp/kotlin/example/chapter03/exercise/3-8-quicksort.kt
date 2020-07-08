@@ -14,4 +14,12 @@ fun main() {
     require(listOf(1, 2, 3, 4, 5, 6, 7) == quicksort(listOf(5, 3, 7, 6, 2, 1, 4)))
 }
 
-private fun quicksort(list: List<Int>): List<Int> = TODO()
+private fun quicksort(list: List<Int>): List<Int> {
+    if (list.size <= 1) {
+        return list
+    }
+
+    val pivot = list.last()
+    val (left, right) = list.dropLast(1).partition { pivot >= it }
+    return quicksort(left) + pivot + quicksort(right)
+}
