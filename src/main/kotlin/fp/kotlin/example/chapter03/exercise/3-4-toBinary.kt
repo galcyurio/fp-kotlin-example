@@ -15,4 +15,7 @@ fun main() {
     require("11111111" == toBinary(255))
 }
 
-private fun toBinary(n: Int): String = TODO()
+private fun toBinary(n: Int): String = when {
+    n <= 1 -> n.toString()
+    else -> toBinary(n / 2) + (n % 2).toString()
+}

@@ -15,4 +15,7 @@ fun main() {
     require(listOf(1, 1, 1, 1, 1) == replicate(5, 1))
 }
 
-private fun replicate(n: Int, element: Int): List<Int> = TODO()
+private fun replicate(n: Int, element: Int): List<Int> = when (n) {
+    0 -> emptyList()
+    else -> listOf(element) + replicate(n - 1, element)
+}

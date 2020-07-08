@@ -1,5 +1,8 @@
 package fp.kotlin.example.chapter03.exercise
 
+import fp.kotlin.example.head
+import fp.kotlin.example.tail
+
 /**
  * 연습문제 3-6
  *
@@ -11,7 +14,12 @@ package fp.kotlin.example.chapter03.exercise
 
 fun main() {
     require(elem(5, listOf(1, 3, 5)))
+    require(elem(5, listOf(5, 3, 1)))
     require(!elem(5, listOf(1, 3, 7)))
 }
 
-private fun elem(num: Int, list: List<Int>): Boolean = TODO()
+private fun elem(num: Int, list: List<Int>): Boolean = when {
+    list.isEmpty() -> false
+    list.last() == num -> true
+    else -> elem(num, list.dropLast(1))
+}

@@ -14,4 +14,7 @@ fun main() {
     require(1024.0 == power(2.0, 10))
 }
 
-private fun power(x: Double, n: Int): Double = TODO()
+private fun power(x: Double, n: Int): Double = when (n) {
+    0 -> 1.0
+    else -> power(x, n - 1) * x
+}
