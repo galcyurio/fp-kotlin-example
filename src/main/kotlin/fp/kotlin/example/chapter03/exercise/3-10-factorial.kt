@@ -13,4 +13,13 @@ fun main() {
     require(3628800 == factorial(10))
 }
 
-private fun factorial(n: Int): Int = TODO()
+private val memo = IntArray(100)
+
+private fun factorial(n: Int): Int = when {
+    n == 0 -> 1
+    memo[n] != 0 -> memo[n]
+    else -> {
+        memo[n] = n * factorial(n - 1)
+        memo[n]
+    }
+}
