@@ -15,4 +15,7 @@ fun main() {
     require(6 == gcd(366, 60))
 }
 
-private fun gcd(m: Int, n: Int): Int = TODO()
+private fun gcd(m: Int, n: Int): Int = when (val x = m % n) {
+    0 -> n
+    else -> gcd(n, x)
+}
