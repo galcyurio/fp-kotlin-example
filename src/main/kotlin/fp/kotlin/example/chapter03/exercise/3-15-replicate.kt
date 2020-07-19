@@ -11,4 +11,7 @@ fun main() {
     require(listOf(1, 1, 1, 1, 1) == replicate(5, 1))
 }
 
-private tailrec fun replicate(n: Int, element: Int, acc: List<Int> = listOf()): List<Int> = TODO()
+private tailrec fun replicate(n: Int, element: Int, acc: List<Int> = listOf()): List<Int> = when (n) {
+    0 -> acc
+    else -> replicate(n - 1, element, acc.plus(element))
+}

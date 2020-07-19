@@ -11,4 +11,8 @@ fun main() {
     require(!elem(5, listOf(1, 3, 7)))
 }
 
-private tailrec fun elem(element: Int, list: List<Int>): Boolean = TODO()
+private tailrec fun elem(element: Int, list: List<Int>): Boolean = when {
+    list.isEmpty() -> false
+    list.last() == element -> true
+    else -> elem(element, list.dropLast(1))
+}

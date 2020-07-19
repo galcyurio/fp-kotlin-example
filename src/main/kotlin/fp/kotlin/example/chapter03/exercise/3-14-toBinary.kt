@@ -12,4 +12,7 @@ fun main() {
     require("11111111" == toBinary(255))
 }
 
-private tailrec fun toBinary(n: Int, acc: String = ""): String = TODO()
+private tailrec fun toBinary(n: Int, acc: String = ""): String = when (n) {
+    0 -> acc
+    else -> toBinary(n / 2, (n % 2).toString() + acc)
+}

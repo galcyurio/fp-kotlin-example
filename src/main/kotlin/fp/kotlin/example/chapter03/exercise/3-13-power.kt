@@ -13,4 +13,7 @@ fun main() {
     require(1024.0 == power(2.0, 10))
 }
 
-private tailrec fun power(x: Double, n: Int, acc: Double = 1.0): Double = TODO()
+private tailrec fun power(x: Double, n: Int, acc: Double = 1.0): Double = when (n) {
+    0 -> acc
+    else -> power(x, n - 1, acc * x)
+}
