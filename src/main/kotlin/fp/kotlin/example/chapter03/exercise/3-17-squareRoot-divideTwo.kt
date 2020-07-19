@@ -1,5 +1,7 @@
 package fp.kotlin.example.chapter03.exercise
 
+import kotlin.math.sqrt
+
 /**
  * 연습문제 3-17
  *
@@ -14,6 +16,12 @@ fun main() {
     require(0.528685631720282 == squareRoot(5.0))
 }
 
-private fun squareRoot(n: Double): Double = TODO()
+private fun squareRoot(n: Double): Double = when {
+    n < 1 -> n
+    else -> divideTwo(sqrt(n))
+}
 
-private fun divideTwo(n: Double): Double  = TODO()
+private fun divideTwo(n: Double): Double = when {
+    n < 1 -> n
+    else -> squareRoot(n / 2)
+}

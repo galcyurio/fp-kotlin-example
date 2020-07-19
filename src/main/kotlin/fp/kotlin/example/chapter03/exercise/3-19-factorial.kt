@@ -1,6 +1,8 @@
 package fp.kotlin.example.chapter03.exercise
 
 import fp.kotlin.example.chapter03.Bounce
+import fp.kotlin.example.chapter03.Done
+import fp.kotlin.example.chapter03.More
 import fp.kotlin.example.chapter03.trampoline
 import java.math.BigDecimal
 
@@ -17,4 +19,7 @@ fun main() {
     require(BigDecimal(Long.MAX_VALUE) < trampoline(factorial(BigDecimal(100000))))
 }
 
-private fun factorial(n: BigDecimal, acc: BigDecimal = BigDecimal(1)): Bounce<BigDecimal> = TODO()
+private fun factorial(n: BigDecimal, acc: BigDecimal = BigDecimal(1)): Bounce<BigDecimal> = when (n) {
+    BigDecimal.ZERO -> Done(acc)
+    else -> More { factorial(n.dec(), acc * n) }
+}
