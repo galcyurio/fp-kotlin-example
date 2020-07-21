@@ -26,10 +26,16 @@ class PartialFunction<P, R>(
 
     fun isDefinedAt(p: P): Boolean = condition(p)
 
-    fun invokeOrElse(p: P, default: R): R = TODO()
+    fun invokeOrElse(p: P, default: R): R = when(condition(p)) {
+        true -> f(p)
+        false -> default
+    }
 
     fun orElse(that: PartialFunction<P, R>): PartialFunction<P, R> =
-            PartialFunction({ it: P -> this.isDefinedAt(it) || that.isDefinedAt(it) }, { it: P -> TODO() })
+            PartialFunction(
+                condition = { this.isDefinedAt(it) || that.isDefinedAt(it) },
+                f = { if (condition(it)) f(it) else that(it) }
+            )
 }
 
 fun <P, R> ((P) -> R).toPartialFunction(definedAt: (P) -> Boolean)
@@ -43,5 +49,5 @@ fun main() {
     val isOdd = { i: Int -> "$i is odd" }.toPartialFunction{ !condition(it) }
 
     println(listOf(1, 2, 3).map { isEven.invokeOrElse(it, "$it is odd") })    // [1 is odd, 2 is even, 3 is odd]
-    println(listOf(1, 2, 3).map { isEven.orElse(isOdd) })    // [1 is odd, 2 is even, 3 is odd]
+    println(listOf(1, 2, 3).map { isEven.orElse(isOdd)(it) })    // [1 is odd, 2 is even, 3 is odd]
 }
