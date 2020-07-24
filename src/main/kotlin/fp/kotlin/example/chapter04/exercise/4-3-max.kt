@@ -10,6 +10,10 @@ fun main() {
     /*
      * 주석을 해제하고 아래 조건을 만족하는 함수 max를 구현해보세요.
      */
-//    require(30 == max(10)(30))
+    require(30 == max(10)(30))
+}
+
+private fun max(a: Int): (Int) -> Int = { b ->
+    if (a > b) a else b
 }
 
