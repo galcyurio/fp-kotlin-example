@@ -1,5 +1,7 @@
 package fp.kotlin.example.chapter04.exercise
 
+import fp.kotlin.example.chapter04.compose
+
 /**
  * 연습문제 4-6
  *
@@ -14,4 +16,4 @@ fun main() {
     require(maxComposePower(list2) == 169)
 }
 
-fun maxComposePower(list: List<Int>): Int = TODO()
+fun maxComposePower(list: List<Int>): Int = (power compose max)(list)

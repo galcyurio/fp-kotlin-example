@@ -15,6 +15,6 @@ fun main() {
 
 }
 
-val max: (List<Int>) -> Int = { list: List<Int> -> TODO() }
+val max: (List<Int>) -> Int = { list: List<Int> -> list.max() ?: error("Failed max: empty list") }
 
-val power: (Int) -> Int = { value -> TODO() }
+val power: (Int) -> Int = { value -> value * value }
