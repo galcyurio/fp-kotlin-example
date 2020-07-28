@@ -11,4 +11,15 @@ fun main() {
     require(listOf('h', 'e', 'l', 'l', 'o') == takeWhile({ p -> ' ' != p }, "hello world".toList()))
 }
 
-private tailrec fun <P> takeWhile(predicate: (P) -> Boolean, list: List<P>, acc: List<P> = listOf()): List<P> = TODO()
+private tailrec fun <P> takeWhile(
+    predicate: (P) -> Boolean,
+    list: List<P>,
+    acc: List<P> = listOf()
+): List<P> = when {
+    list.isEmpty() ->
+        acc
+    !predicate(list.first()) ->
+        acc
+    else ->
+        takeWhile(predicate, list.drop(1), acc + list.first())
+}

@@ -12,4 +12,15 @@ fun main() {
     require(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9) == takeWhile({ p -> p < 10 }, generateSequence(1) { it + 1 }))
 }
 
-private tailrec fun <P> takeWhile(predicate: (P) -> Boolean, sequence: Sequence<P>, acc: List<P> = listOf()): List<P> = TODO()
+private tailrec fun <P> takeWhile(
+    predicate: (P) -> Boolean,
+    sequence: Sequence<P>,
+    acc: List<P> = listOf()
+): List<P> = when {
+    sequence.none() ->
+        acc
+    !predicate(sequence.first()) ->
+        acc
+    else ->
+        takeWhile(predicate, sequence.drop(1), acc + sequence.first())
+}
