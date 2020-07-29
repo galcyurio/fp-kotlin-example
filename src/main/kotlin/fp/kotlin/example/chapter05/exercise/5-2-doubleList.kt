@@ -11,5 +11,11 @@ import fp.kotlin.example.chapter05.FunList
  */
 
 fun main() {
-    val doubleList: FunList<Double> = TODO()
+    val doubleList: FunList<Double> = FunList.Cons(
+        1.0, FunList.Cons(
+        2.0, FunList.Cons(
+        3.0, FunList.Cons(
+        4.0, FunList.Cons(
+        5.0, FunList.Nil
+    )))))
 }
