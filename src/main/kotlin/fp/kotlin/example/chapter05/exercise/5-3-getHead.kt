@@ -22,4 +22,7 @@ fun main() {
 
 }
 
-fun <T> FunList<T>.getHead(): T = TODO()
+fun <T> FunList<T>.getHead(): T = when (this) {
+    Nil -> throw NoSuchElementException()
+    is Cons -> head
+}
