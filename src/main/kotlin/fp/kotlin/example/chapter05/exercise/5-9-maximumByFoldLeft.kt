@@ -1,6 +1,7 @@
 package fp.kotlin.example.chapter05.exercise
 
 import fp.kotlin.example.chapter05.FunList
+import fp.kotlin.example.chapter05.foldLeft
 import fp.kotlin.example.chapter05.funListOf
 
 /**
@@ -18,4 +19,6 @@ fun main() {
     require(list.maximumByFoldLeft() == 5)
 }
 
-fun FunList<Int>.maximumByFoldLeft(): Int = TODO()
+fun FunList<Int>.maximumByFoldLeft(): Int = foldLeft(Int.MIN_VALUE) { acc, x ->
+    if (acc > x) acc else x
+}
