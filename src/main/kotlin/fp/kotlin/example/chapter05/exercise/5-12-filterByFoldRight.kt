@@ -1,6 +1,8 @@
 package fp.kotlin.example.chapter05.exercise
 
 import fp.kotlin.example.chapter05.FunList
+import fp.kotlin.example.chapter05.addHead
+import fp.kotlin.example.chapter05.foldRight
 import fp.kotlin.example.chapter05.funListOf
 
 /**
@@ -20,4 +22,6 @@ fun main() {
     require(list.filterByFoldRight { it < 6 } == funListOf(1, 2, 3, 4, 5))
 }
 
-fun <T> FunList<T>.filterByFoldRight(p: (T) -> Boolean): FunList<T> = TODO()
+fun <T> FunList<T>.filterByFoldRight(p: (T) -> Boolean): FunList<T> = foldRight(FunList.Nil) { x: T, acc: FunList<T> ->
+    if (p(x)) acc.addHead(x) else acc
+}
