@@ -1,6 +1,8 @@
 package fp.kotlin.example.chapter05.exercise
 
 import fp.kotlin.example.chapter05.FunList
+import fp.kotlin.example.chapter05.addHead
+import fp.kotlin.example.chapter05.foldRight
 import fp.kotlin.example.chapter05.funListOf
 
 /**
@@ -20,4 +22,8 @@ fun main() {
         mapOf(false to funListOf(1, 3, 5), true to funListOf(2, 4, 6)))
 }
 
-fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> = TODO()
+fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> = foldRight(emptyMap()) { x, acc ->
+    val key = f(x)
+    val value = acc.getOrDefault(key, funListOf())
+    acc.plus(key to value.addHead(x))
+}
