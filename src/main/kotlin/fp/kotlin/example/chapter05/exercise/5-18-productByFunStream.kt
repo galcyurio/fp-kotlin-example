@@ -1,6 +1,7 @@
 package fp.kotlin.example.chapter05.exercise
 
 import fp.kotlin.example.chapter05.FunStream
+import fp.kotlin.example.chapter05.foldLeft
 import fp.kotlin.example.chapter05.funStreamOf
 
 /**
@@ -17,4 +18,4 @@ fun main() {
     require(funStreamOf(1, 2, 3, 4, 5).product() == 1 * 2 * 3 * 4 * 5)
 }
 
-fun FunStream<Int>.product(): Int = TODO()
+fun FunStream<Int>.product(): Int = foldLeft(1) { acc, x -> acc * x }
