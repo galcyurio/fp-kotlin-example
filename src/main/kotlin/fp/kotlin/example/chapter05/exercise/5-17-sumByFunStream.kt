@@ -1,6 +1,7 @@
 package fp.kotlin.example.chapter05.exercise
 
 import fp.kotlin.example.chapter05.FunStream
+import fp.kotlin.example.chapter05.foldLeft
 import fp.kotlin.example.chapter05.funStreamOf
 import fp.kotlin.example.chapter05.toFunStream
 
@@ -15,9 +16,9 @@ import fp.kotlin.example.chapter05.toFunStream
  */
 
 fun main() {
-    sequenceOf(1,2,3).sum()
+    sequenceOf(1, 2, 3).sum()
     require(funStreamOf(1, 2, 3, 4, 5).sum() == 1 + 2 + 3 + 4 + 5)
     require((1..10000).toFunStream().sum() == 50005000)
 }
 
-fun FunStream<Int>.sum(): Int = TODO()
+fun FunStream<Int>.sum(): Int = foldLeft(0) { acc, x -> acc + x }
