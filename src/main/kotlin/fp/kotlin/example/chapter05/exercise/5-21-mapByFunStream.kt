@@ -25,4 +25,10 @@ fun main() {
         .getHead() == 121)
 }
 
-fun <T, R> FunStream<T>.map(f: (T) -> R): FunStream<R> = TODO()
+fun <T, R> FunStream<T>.map(f: (T) -> R): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    is FunStream.Cons -> FunStream.Cons(
+        head = { f(head()) },
+        tail = { tail().map(f) }
+    )
+}
