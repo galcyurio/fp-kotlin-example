@@ -1,9 +1,6 @@
 package fp.kotlin.example.chapter05.exercise
 
-import fp.kotlin.example.chapter05.FunStream
-import fp.kotlin.example.chapter05.funStreamOf
-import fp.kotlin.example.chapter05.getHead
-import fp.kotlin.example.chapter05.toFunStream
+import fp.kotlin.example.chapter05.*
 
 /**
  *
@@ -26,4 +23,22 @@ fun main() {
         .getHead() == 101)
 }
 
-fun <T> FunStream<T>.filter(p: (T) -> Boolean): FunStream<T> = TODO()
+// foldLeft() 내부에서 값이 평가됨
+//fun <T> FunStream<T>.filter(p: (T) -> Boolean): FunStream<T> = foldLeft(FunStream.Nil) { acc: FunStream<T>, x: T ->
+//    if (p(x)) {
+//        acc.appendTail(x)
+//    } else {
+//        acc
+//    }
+//}
+
+fun <T> FunStream<T>.filter(p: (T) -> Boolean): FunStream<T> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    is FunStream.Cons -> when (val dropped = dropWhile(p)) {
+        FunStream.Nil -> FunStream.Nil
+        is FunStream.Cons -> FunStream.Cons(
+            head = { dropped.head() },
+            tail = { dropped.tail().filter(p) }
+        )
+    }
+}
