@@ -37,7 +37,6 @@ private fun imperativeWay(intList: List<Int>): Int {
     throw NoSuchElementException("There is no value")
 }
 
-@Suppress("SimplifiableCallChain") // for test
 private fun functionalWay(intList: List<Int>): Int =
     intList
         .map { it * it }
