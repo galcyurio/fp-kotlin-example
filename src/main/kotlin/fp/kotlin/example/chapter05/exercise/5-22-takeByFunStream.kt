@@ -19,4 +19,13 @@ fun main() {
         .take(5) == funStreamOf(0, 5, 10, 15, 20))
 }
 
-fun <T> FunStream<T>.take(n: Int): FunStream<T> = TODO()
+fun <T> FunStream<T>.take(n: Int): FunStream<T> = when {
+    n <= 0 -> FunStream.Nil
+    else -> when (this) {
+        FunStream.Nil -> FunStream.Nil
+        is FunStream.Cons -> FunStream.Cons(
+            head = head,
+            tail = { tail().take(n - 1) }
+        )
+    }
+}
