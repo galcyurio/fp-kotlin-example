@@ -17,4 +17,10 @@ fun main() {
     require(funListOf(1, 2, 3, 4, 5).toString("") == "[1, 2, 3, 4, 5]")
 }
 
-tailrec fun <T> FunList<T>.toString(acc: String): String = TODO()
+tailrec fun <T> FunList<T>.toString(acc: String): String = when(this) {
+    FunList.Nil -> "[$acc]"
+    is FunList.Cons -> when {
+        acc.isEmpty() -> tail.toString("$head")
+        else -> tail.toString("$acc, $head")
+    }
+}
