@@ -11,4 +11,11 @@ package fp.kotlin.example.chapter06.exercise
  *       함수의 기본선언은 다음과 같다.
  */
 
-sealed class Tree<out T>
+sealed class Tree<out T> {
+    object EmptyTree : Tree<Nothing>()
+    data class Node<out T>(
+        val value: T,
+        val left: Node<T>,
+        val right: Node<T>
+    ) : Tree<T>()
+}
