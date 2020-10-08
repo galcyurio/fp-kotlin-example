@@ -11,5 +11,7 @@ package fp.kotlin.example.chapter06.exercise
  */
 
 fun main() {
-   TODO()
+    (1..100_100).fold(Tree.EmptyTree) { acc: Tree<Int>, i: Int ->
+        acc.insert(i)
+    }
 }
