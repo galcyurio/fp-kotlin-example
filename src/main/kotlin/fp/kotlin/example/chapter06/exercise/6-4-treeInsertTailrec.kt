@@ -1,5 +1,10 @@
 package fp.kotlin.example.chapter06.exercise
 
+import fp.kotlin.example.chapter05.FunStream
+import fp.kotlin.example.chapter05.addHead
+import fp.kotlin.example.chapter05.funStreamOf
+import fp.kotlin.example.chapter06.exercise.Tree.*
+
 /**
  *
  * 연습문제 6-4
@@ -12,9 +17,6 @@ package fp.kotlin.example.chapter06.exercise
  */
 
 fun main() {
-    /*
-    주석을 해제하고 insert()를 구현해보세요.
-
     val tree1 = EmptyTree.insertTailrec(5)
     require(tree1 == Node(5, EmptyTree, EmptyTree))
 
@@ -88,8 +90,46 @@ fun main() {
     (1..100000).fold(EmptyTree as Tree<Int>) { acc, i ->
         acc.insertTailrec(i)
     }
-
-     */
 }
 
-tailrec fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> = TODO()
+fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> {
+    return rebuild(path(this, elem), elem)
+}
+
+private fun path(
+    tree: Tree<Int>,
+    value: Int
+): FunStream<InequalityTree> {
+    tailrec fun loop(tree: Tree<Int>, acc: FunStream<InequalityTree>): FunStream<InequalityTree> = when (tree) {
+        is Node -> when {
+            value < tree.value ->
+                loop(tree.left, acc.addHead(InequalityTree.LessThan(tree)))
+            else ->
+                loop(tree.right, acc.addHead(InequalityTree.GreaterThan(tree)))
+        }
+        EmptyTree -> acc
+    }
+    return loop(tree, funStreamOf())
+}
+
+private fun rebuild(
+    path: FunStream<InequalityTree>,
+    value: Int
+): Tree<Int> {
+    tailrec fun loop(path: FunStream<InequalityTree>, acc: Tree<Int>): Tree<Int> = when (path) {
+        is FunStream.Cons -> when (val inequalityTree = path.head()) {
+            is InequalityTree.LessThan ->
+                loop(path.tail(), inequalityTree.node.copy(left = acc))
+            is InequalityTree.GreaterThan ->
+                loop(path.tail(), inequalityTree.node.copy(right = acc))
+        }
+        FunStream.Nil -> acc
+    }
+
+    return loop(path, Node(value, EmptyTree, EmptyTree))
+}
+
+private sealed class InequalityTree(open val node: Node<Int>) {
+    data class LessThan(override val node: Node<Int>) : InequalityTree(node)
+    data class GreaterThan(override val node: Node<Int>) : InequalityTree(node)
+}
