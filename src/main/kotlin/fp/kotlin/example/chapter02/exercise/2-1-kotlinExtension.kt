@@ -11,4 +11,4 @@ fun main() {
     require("FP".addHelloPrefix() == "Hello, FP")
 }
 
-private fun String.addHelloPrefix(): String = TODO()
+private fun String.addHelloPrefix(): String = "Hello, $this"
