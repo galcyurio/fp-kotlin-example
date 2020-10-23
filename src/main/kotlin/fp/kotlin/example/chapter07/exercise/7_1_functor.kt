@@ -20,31 +20,21 @@ sealed class FunList<out A> : Functor<A> {
 
 object Nil : FunList<Nothing>() {
 
-    override fun <B> fmap(f: (Nothing) -> B): FunList<B> {
-        TODO("not implemented")
-    }
+    override fun <B> fmap(f: (Nothing) -> B): FunList<B> = this
 
-    override fun first(): Nothing {
-        TODO("not implemented")
-    }
+    override fun first(): Nothing = throw NoSuchElementException()
 
-    override fun size(): Int {
-        TODO("not implemented")
-    }
+    override fun size(): Int = 0
 }
 
 data class Cons<A>(val head: A, val tail: FunList<A>) : FunList<A>() {
     override fun <B> fmap(f: (A) -> B): FunList<B> {
-        TODO("not implemented")
+        return Cons(f(head), tail.fmap(f))
     }
 
-    override fun first(): Nothing {
-        TODO("not implemented")
-    }
+    override fun first(): A = head
 
-    override fun size(): Int {
-        TODO("not implemented")
-    }
+    override fun size(): Int = 1 + tail.size()
 }
 
 fun main() {
