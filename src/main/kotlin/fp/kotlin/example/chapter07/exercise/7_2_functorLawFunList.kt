@@ -1,5 +1,7 @@
 package fp.kotlin.example.chapter07.exercise
 
+import fp.kotlin.example.chapter04.compose
+
 /**
  *
  * 연습문제 7-2
@@ -11,11 +13,13 @@ fun main() {
     val funList: FunList<Int> = Cons(1, Cons(2, Cons(3, Nil)))
 
     // functor 1lows
-    require(funList == TODO())
+    require(funList.fmap(::identity) == identity(funList))
 
     // functor 2lows
-    val left = funList.fmap { TODO() }
-    val right = funList.fmap { TODO() }.fmap { TODO() }
+    val f = { x: Int -> x + 2 }
+    val g = { x: Int -> x * 3 }
+    val left = funList.fmap(f compose g)
+    val right = funList.fmap(g).fmap(f)
 
     require(left == right)
 }
