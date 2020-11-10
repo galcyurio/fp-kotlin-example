@@ -20,7 +20,9 @@ fun main() {
     val curriedProduct: (Int) -> (Int) -> Int = product.curried()
     val list = Cons(1, Cons(2, Cons(3, Cons(4, Nil))))
 
-    val productWithList: (Int) -> FunList<Int> = TODO()
+    val productWithList: (Int) -> FunList<Int> = {
+        list.fmap(curriedProduct).fmap { f -> f(it) }
+    }
 
     require(productWithList(5) == Cons(5, Cons(10, Cons(15, Cons(20, Nil)))))
     require(productWithList(10) == Cons(10, Cons(20, Cons(30, Cons(40, Nil)))))
