@@ -15,7 +15,7 @@ import fp.kotlin.example.chapter08.exercise.AFunList.Companion.pure
 sealed class AFunList<out A> : Applicative<A> {
 
     companion object {
-        fun <V> pure(value: V): ACons<V> = TODO()
+        fun <V> pure(value: V): ACons<V> = ACons(value, ANil)
     }
 
     abstract override fun <B> fmap(f: (A) -> B): AFunList<B>
@@ -27,24 +27,27 @@ sealed class AFunList<out A> : Applicative<A> {
 
 object ANil : AFunList<Nothing>() {
 
-    override fun <B> fmap(f: (Nothing) -> B): AFunList<B> = TODO()
+    override fun <B> fmap(f: (Nothing) -> B): AFunList<B> = this
 
-    override fun <B> apply(ff: Applicative<(Nothing) -> B>): AFunList<B> = TODO()
+    override fun <B> apply(ff: Applicative<(Nothing) -> B>): AFunList<B> = this
 
-    override fun first(): Nothing = TODO()
+    override fun first(): Nothing = throw NoSuchElementException()
 
-    override fun size(): Int = TODO()
+    override fun size(): Int = 0
 }
 
 data class ACons<A>(val head: A, val tail: AFunList<A>) : AFunList<A>() {
 
-    override fun <B> fmap(f: (A) -> B): AFunList<B> = TODO()
+    override fun <B> fmap(f: (A) -> B): AFunList<B> = ACons(f(head), tail.fmap(f))
 
-    override fun <B> apply(ff: Applicative<(A) -> B>): AFunList<B> = TODO()
+    override fun <B> apply(ff: Applicative<(A) -> B>): AFunList<B> = when (ff) {
+        is ACons -> fmap(ff.head)
+        else -> ANil
+    }
 
-    override fun first() = TODO()
+    override fun first() = head
 
-    override fun size(): Int = TODO()
+    override fun size(): Int = 1 + tail.size()
 }
 
 
