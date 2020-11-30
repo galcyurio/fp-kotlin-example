@@ -1,5 +1,7 @@
 package fp.kotlin.example.chapter08.exercise
 
+import io.kotlintest.shouldBe
+
 /**
  *
  * 연습문제 8-6
@@ -14,10 +16,18 @@ package fp.kotlin.example.chapter08.exercise
 fun main() {
 
 
-    val list1: FunList<(Int) -> Int> = Cons({ x :Int-> x * 5 }, Cons<(Int)-> Int>({ x: Int -> x + 10 } , Nil))
-    val list2:  FunList<Int> = Cons(10, Cons(20, Cons(30, Nil)))
+    val list1: FunList<(Int) -> Int> = Cons({ x: Int -> x * 5 }, Cons<(Int) -> Int>({ x: Int -> x + 10 }, Nil))
+    val list2: FunList<Int> = Cons(10, Cons(20, Cons(30, Nil)))
 
-    require(list1.zipList(list2) == Cons(50, Cons(30, Nil)))
+    list1.zipList(list2) shouldBe Cons(50, Cons(30, Nil))
 }
 
-fun <A, B>FunList<(A)->B>.zipList(other: FunList<A>): FunList<B> = TODO()
+tailrec fun <A, B> FunList<(A) -> B>.zipList(other: FunList<A>, acc: FunList<B> = Nil): FunList<B> = when {
+    this is Cons && other is Cons -> {
+        tail.zipList(
+            other = other.tail,
+            acc = acc append Cons(head(other.head), Nil)
+        )
+    }
+    else -> acc
+}
