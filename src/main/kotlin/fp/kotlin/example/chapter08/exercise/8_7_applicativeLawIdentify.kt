@@ -9,10 +9,8 @@ package fp.kotlin.example.chapter08.exercise
  */
 
 fun main() {
-
-    require(TODO() ==
+    require(FunList.pure(identity()) apply Cons(1, Cons(2, Nil)) ==
         Cons(1, Cons(2, Nil)))
-    
 }
 
 fun identity() = { x: Int -> x }
